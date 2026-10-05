@@ -47,9 +47,11 @@ jobs:
         export PATH=~/bin:$PATH
         source build/envsetup.sh
 
-        # Hapus folder VTS yang memicu error dependensi di Soong
+        # Hapus folder & file Android.bp VTS yang memicu error dependensi di Soong
         rm -rf hardware/interfaces/vts
         rm -rf test/vts
+        find hardware/interfaces/ -type f -name "Android.bp" -exec grep -l "vts" {} + | xargs rm -f
+        find vendor/qcom/opensource/interfaces/ -type f -name "Android.bp" -exec grep -l "vts" {} + | xargs rm -f
 
         lunch twrp_a03-eng
         mka recoveryimage -j$(nproc --all)
