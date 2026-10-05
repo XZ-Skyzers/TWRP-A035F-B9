@@ -29,3 +29,7 @@ TW_THEME := portrait_hdpi
 TW_EXTRA_LANGUAGES := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_USE_TOOLBOX := true
+
+# Disable problematic Keymaster decryption for initial compilation
+TW_INCLUDE_CRYPTO := false
+TW_CRYPTO_USE_SYSTEM_VOLD := false
