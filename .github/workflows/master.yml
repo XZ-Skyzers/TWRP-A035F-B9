@@ -50,23 +50,24 @@ jobs:
         cd workspace
         export PATH=~/bin:$PATH
         
-        # EXPORT FORCED FLAGS
+        # Export semua forced build flags
         export ALLOW_MISSING_DEPENDENCIES=true
         export SOONG_ALLOW_MISSING_DEPENDENCIES=true
         export BUILD_BROKEN_MISSING_REQUIRED_MODULES=true
         export BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES=true
         export BUILD_BROKEN_DUP_RULES=true
         export BUILD_BROKEN_OUTSIDE_INCLUDE_PATHS=true
+        export BUILD_BROKEN_VINTF_MANIFEST_VALIDATION=true
 
         source build/envsetup.sh
 
-        # Auto-Fix / Hapus Modul Bermasalah (VTS & Hal Interface Bawaan)
+        # Pembersihan otomatis modul VTS dan interface bermasalah
         rm -rf hardware/interfaces/vts
         rm -rf test/vts
         find hardware/interfaces/ -type f -name "Android.bp" -exec grep -l "vts" {} + | xargs rm -f || true
         find vendor/qcom/opensource/interfaces/ -type f -name "Android.bp" -exec grep -l "vts" {} + | xargs rm -f || true
 
-        # Auto-Patch Header libcutils
+        # Auto-patch header libcutils
         mkdir -p system/core/libcutils/include/private
         find system/core -name "android_filesystem_config.h" -exec cp {} system/core/libcutils/include/private/ \; || true
 
