@@ -41,25 +41,22 @@ jobs:
         cd workspace
         git clone ${{ github.server_url }}/${{ github.repository }} device/samsung/a03
 
-    - name: Fix Missing Headers & Build Recovery
+    - name: Fix Headers & Build Recovery
       run: |
         cd workspace
         export PATH=~/bin:$PATH
+        export ALLOW_MISSING_DEPENDENCIES=true
         source build/envsetup.sh
 
-        # Pembersihan VTS & penanganan masalah dependensi Soong
+        # Pembersihan VTS & file Android.bp bermasalah
         rm -rf hardware/interfaces/vts
         rm -rf test/vts
         find hardware/interfaces/ -type f -name "Android.bp" -exec grep -l "vts" {} + | xargs rm -f || true
         find vendor/qcom/opensource/interfaces/ -type f -name "Android.bp" -exec grep -l "vts" {} + | xargs rm -f || true
 
-        # Perbaikan missing header android_filesystem_config.h untuk libcutils
+        # Otomatis menyalin header android_filesystem_config.h dari sistem ke libcutils
         mkdir -p system/core/libcutils/include/private
-        if [ -f system/core/include/private/android_filesystem_config.h ]; then
-          cp system/core/include/private/android_filesystem_config.h system/core/libcutils/include/private/
-        elif [ -f system/media/audio/include/system/audio.h ]; then
-          mkdir -p system/core/libcutils/include/system
-        fi
+        find system/core -name "android_filesystem_config.h" -exec cp {} system/core/libcutils/include/private/ \; || true
 
         lunch twrp_a03-eng
         mka recoveryimage -j$(nproc --all)
