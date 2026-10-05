@@ -33,3 +33,6 @@ TW_USE_TOOLBOX := true
 # Disable problematic Keymaster decryption for initial compilation
 TW_INCLUDE_CRYPTO := false
 TW_CRYPTO_USE_SYSTEM_VOLD := false
+
+# Allow missing dependencies for Minimal Manifest TWRP
+ALLOW_MISSING_DEPENDENCIES := true
