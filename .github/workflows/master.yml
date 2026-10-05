@@ -46,6 +46,11 @@ jobs:
         cd workspace
         export PATH=~/bin:$PATH
         source build/envsetup.sh
+
+        # Hapus folder VTS yang memicu error dependensi di Soong
+        rm -rf hardware/interfaces/vts
+        rm -rf test/vts
+
         lunch twrp_a03-eng
         mka recoveryimage -j$(nproc --all)
 
