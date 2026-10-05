@@ -47,7 +47,7 @@ jobs:
         export PATH=~/bin:$PATH
         source build/envsetup.sh
 
-        # Hapus folder & file Android.bp VTS yang memicu error dependensi di Soong
+        # Pembersihan VTS & penanganan masalah dependensi Soong
         rm -rf hardware/interfaces/vts
         rm -rf test/vts
         find hardware/interfaces/ -type f -name "Android.bp" -exec grep -l "vts" {} + | xargs rm -f
